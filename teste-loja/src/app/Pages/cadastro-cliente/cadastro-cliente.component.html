@@ -1,1 +1,197 @@
-<p>cadastro-cliente works!</p>
+<div class="container-fluid">
+    <div class="card">
+        <h2 class="card-title">Cadastro/Atualização de clientes</h2>
+        <form class="form" [formGroup]="clienteForm" (ngSubmit)="onSubmit()">
+            <div class="form-floating mb-3">
+                <input type="text" formControlName="nomeRazaoSocial" class="form-control" id="name"
+                    placeholder="Nome / Razão Social" 
+                    [ngClass]="{'is-invalid': (clienteForm.get('nomeRazaoSocial')?.touched) && clienteForm.get('nomeRazaoSocial')?.errors?.['required'] && erros
+                || (clienteForm.get('nomeRazaoSocial')?.touched) && clienteForm.get('nomeRazaoSocial')?.errors?.['maxlength']
+            }" />
+                <label for="floatingInput">Nome/Razão Social</label>
+            </div>
+            <span class="text-danger"
+                *ngIf="(clienteForm.get('nomeRazaoSocial')?.touched) && clienteForm.get('nomeRazaoSocial')?.errors?.['required'] && erros">
+                Campo obrigatório
+            </span>
+            <span class="text-danger"
+                *ngIf="(clienteForm.get('nomeRazaoSocial')?.touched) && clienteForm.get('nomeRazaoSocial')?.errors?.['maxlength']">
+                O Nome/Razão Social deve ter no máximo de 150 caracteres
+            </span>
+            <div class="form-floating mb-3">
+                <input type="text" formControlName="email" class="form-control" id="email" placeholder="email"
+                    [ngClass]="{'is-invalid': (clienteForm.get('email')?.touched) && clienteForm.get('email')?.errors?.['required'] && erros
+                    || (clienteForm.get('email')?.touched) && clienteForm.get('email')?.errors?.['maxlength']
+                }" />
+                <label for="floatingInput">Email</label>
+            </div>
+            <span class="text-danger"
+                *ngIf="(clienteForm.get('email')?.touched) && clienteForm.get('email')?.errors?.['required'] && erros">
+                Campo obrigatório
+            </span>
+            <span class="text-danger"
+                *ngIf="clienteForm.get('email')?.touched && clienteForm.get('email')?.errors?.['email']">
+                Digite um email válido
+            </span>
+            <span class="text-danger"
+                *ngIf="(clienteForm.get('email')?.touched) && clienteForm.get('email')?.errors?.['maxlength']">
+                O email deve ter no máximo de 150 caracteres
+            </span>
+            <div class="form-floating mb-3">
+                <input type="text" formControlName="telefone" class="form-control" id="telefone" placeholder="telefone"
+                    [ngClass]="{'is-invalid': (clienteForm.get('telefone')?.touched) && clienteForm.get('telefone')?.errors?.['required'] && erros
+                || (clienteForm.get('telefone')?.touched) && clienteForm.get('telefone')?.errors?.['pattern']
+                || (clienteForm.get('telefone')?.touched) && clienteForm.get('telefone')?.errors?.['maxlength']
+            }" />
+                <label for="floatingInput">Telefone</label>
+            </div>
+            <span class="text-danger"
+                *ngIf="(clienteForm.get('telefone')?.touched) && clienteForm.get('telefone')?.errors?.['required'] && erros">
+                Campo obrigatório
+            </span>
+            <span class="text-danger"
+                *ngIf="(clienteForm.get('telefone')?.touched) && clienteForm.get('telefone')?.errors?.['pattern']">
+                Digite somente números
+            </span>
+            <span class="text-danger"
+                *ngIf="(clienteForm.get('telefone')?.touched) && clienteForm.get('telefone')?.errors?.['maxlength']">
+                O telefone deve ter no máximo de 11 caracteres
+            </span>
+            <label>Selecione o tipo da pessoa</label>
+            <select formControlName="tipoPessoa" class="form-select mb-3"
+                [ngClass]="{'is-invalid': (clienteForm.get('tipoPessoa')?.touched) && clienteForm.get('tipoPessoa')?.errors?.['required'] && erros}">
+                <option value="1">Pessoa Física</option>
+                <option value="2">Pessoa Jurídica</option>
+            </select>
+            <span class="text-danger"
+                *ngIf="(clienteForm.get('tipoPessoa')?.touched) && clienteForm.get('tipoPessoa')?.errors?.['required'] && erros">
+                Campo obrigatório
+            </span>
+            <div class="form-floating mb-3">
+                <input mask="CPF_CNPJ" type="text" formControlName="documento" class="form-control" id="documento"
+                    placeholder="Nome / Razão Social" [ngClass]="{'is-invalid': (clienteForm.get('documento')?.touched) && clienteForm.get('documento')?.errors?.['required'] && erros
+                || (clienteForm.get('documento')?.touched) && clienteForm.get('documento')?.errors?.['maxlength']
+            }" />
+                <label for="floatingInput">CPF/CNPJ</label>
+            </div>
+            <span class="text-danger"
+                *ngIf="(clienteForm.get('documento')?.touched) && clienteForm.get('documento')?.errors?.['required'] && erros">
+                Campo obrigatório
+            </span>
+            <span class="text-danger"
+                *ngIf="(clienteForm.get('documento')?.touched) && clienteForm.get('documento')?.errors?.['maxlength']">
+                O Nome/Razão Social deve ter no máximo de 14 caracteres
+            </span>
+            <div class="form-check form-switch mb-3">
+                <input class="form-check-input" formControlName="inscricaoEstadualPessoaFisica" type="checkbox"
+                    role="switch" id="inscricaoEstadualPessoaFisica">
+                <label class="form-check-label" for="flexSwitchCheckDefault">Habilitar Inscrição Estadual para pessoa
+                    física</label>
+            </div>
+            <div class="form-check mb-3">
+                <input formControlName="isento" class="form-check-input" type="checkbox" value="" id="isento">
+                <label class="form-check-label" for="flexCheckDefault">
+                    Isento de Inscrição Estadual
+                </label>
+            </div>
+            <div class="form-floating mb-3">
+                <input mask="000.000.000-000" type="text" formControlName="inscricaoEstadual" class="form-control"
+                    id="inscricaoEstadual" placeholder="inscricaoEstadual" [ngClass]="{'is-invalid': (clienteForm.get('inscricaoEstadual')?.touched) && clienteForm.get('inscricaoEstadual')?.errors?.['required'] && erros
+                || (clienteForm.get('inscricaoEstadual')?.touched) && clienteForm.get('inscricaoEstadual')?.errors?.['maxlength']
+            }" />
+                <label for="floatingInput">Inscrição Estadual</label>
+            </div>
+            <span class="text-danger"
+                *ngIf="(clienteForm.get('inscricaoEstadual')?.touched) && clienteForm.get('inscricaoEstadual')?.errors?.['required'] && erros">
+                Campo obrigatório
+            </span>
+            <span class="text-danger"
+                *ngIf="(clienteForm.get('inscricaoEstadual')?.touched) && clienteForm.get('inscricaoEstadual')?.errors?.['maxlength']">
+                O Nome/Razão Social deve ter no máximo de 12 caracteres
+            </span>
+            <div *ngIf="clienteForm.get('tipoPessoa')?.value === '1'">
+                <label>Gênero</label>
+                <select formControlName="genero" class="form-select mb-3"
+                    [ngClass]="{'is-invalid': (clienteForm.get('genero')?.touched) && clienteForm.get('genero')?.errors?.['required'] && erros}">
+                    <option value="feminino">Feminino</option>
+                    <option value="masculino">Masculino</option>
+                    <option value="outro">Outro</option>
+                </select>
+                <span class="text-danger"
+                    *ngIf="(clienteForm.get('genero')?.touched) && clienteForm.get('genero')?.errors?.['required'] && erros">
+                    Campo obrigatório
+                </span>
+                <mat-form-field class="mb-3">
+                    <mat-label>Data Nascimento</mat-label>
+                    <input matInput [matDatepicker]="picker" formControlName="dataNascimento" 
+                    [ngClass]="{'is-invalid': (clienteForm.get('dataNascimento')?.touched) && clienteForm.get('dataNascimento')?.errors?.['required'] && erros}">
+                    <mat-hint>DD/MM/YYYY</mat-hint>
+                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+                <span class="text-danger"
+                    *ngIf="(clienteForm.get('dataNascimento')?.touched) && clienteForm.get('dataNascimento')?.errors?.['required'] && erros">
+                    Campo obrigatório
+                </span>
+            </div>
+            <div class="card mb-3">
+                <h2 class="card-title">Situação do cliente</h2>
+                <div class="form-check form-switch mb-3">
+                    <input class="form-check-input" formControlName="bloqueado" type="checkbox"
+                        role="switch" id="bloqueado">
+                    <label class="form-check-label" for="flexSwitchCheckDefault">Bloqueado</label>
+                </div>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="password" formControlName="senha" class="form-control"
+                    id="senha" placeholder="senha" [ngClass]="{'is-invalid': (clienteForm.get('senha')?.touched) && clienteForm.get('senha')?.errors?.['required'] && erros
+                || (clienteForm.get('senha')?.touched) && clienteForm.get('senha')?.errors?.['maxlength']
+            }" />
+                <label for="floatingInput">Senha</label>
+            </div>
+            <span class="text-danger"
+                *ngIf="(clienteForm.get('senha')?.touched) && clienteForm.get('senha')?.errors?.['required'] && erros">
+                Campo obrigatório
+            </span>
+            <span class="text-danger"
+                *ngIf="(clienteForm.get('senha')?.touched) && clienteForm.get('senha')?.errors?.['maxlength']">
+                A senha deve ter no máximo de 15 caracteres
+            </span>
+            <span class="text-danger"
+                *ngIf="(clienteForm.get('senha')?.touched) && clienteForm.get('senha')?.errors?.['minlength']">
+                A senha deve ter o mínimo de 8 caracteres
+            </span>
+            <span class="text-danger"
+                *ngIf="(clienteForm.get('senha')?.touched) && clienteForm.get('senha')?.errors?.['pattern']">
+                A senha deve conter apenas caracteres alfanuméricos
+            </span>
+            <div class="form-floating mb-3">
+                <input type="password" formControlName="confirmacaoSenha" class="form-control"
+                    id="confirmacaoSenha" placeholder="confirmacaoSenha" [ngClass]="{'is-invalid': (clienteForm.get('confirmacaoSenha')?.touched) && clienteForm.get('confirmacaoSenha')?.errors?.['required'] && erros
+                || (clienteForm.get('confirmacaoSenha')?.touched) && clienteForm.get('confirmacaoSenha')?.errors?.['maxlength']
+            }" />
+                <label for="floatingInput">Confirmação da senha</label>
+            </div>
+            <span class="text-danger"
+                *ngIf="(clienteForm.get('confirmacaoSenha')?.touched) && clienteForm.get('confirmacaoSenha')?.errors?.['required'] && erros">
+                Campo obrigatório
+            </span>
+            <span class="text-danger"
+                *ngIf="(clienteForm.get('confirmacaoSenha')?.touched) && clienteForm.get('confirmacaoSenha')?.errors?.['maxlength']">
+                A confirmacao da senha deve ter no máximo de 15 caracteres
+            </span>
+            <span class="text-danger"
+                *ngIf="(clienteForm.get('confirmacaoSenha')?.touched) && clienteForm.get('confirmacaoSenha')?.errors?.['minlength']">
+                A confirmação da senha deve ter o mínimo de 8 caracteres
+            </span>
+            <span class="text-danger"
+                *ngIf="clienteForm.errors?.['mismatch']">
+                As senhas não conferem.
+            </span>
+            <div>
+                <button mat-stroked-button class="botao mb-3 adicionar" type="submit">Adicionar cliente</button>
+                <button mat-stroked-button class="botao mb-3 cancelar">Cancelar</button>
+            </div>
+        </form>
+    </div>
+</div>

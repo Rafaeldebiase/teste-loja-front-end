@@ -17,8 +17,8 @@ export class ToolbarComponent {
 
   private _router = inject(Router)
 
-  public buyersListOpen(): void {
-    this._router.navigate(['/buyers-list'])
+  public abrirCadastroCliente(): void {
+    this._router.navigate(['/cadastroCliente'])
   }
 
 }

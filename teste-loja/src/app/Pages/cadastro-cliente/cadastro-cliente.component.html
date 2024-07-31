@@ -5,13 +5,13 @@
             <div class="form-floating mb-3">
                 <input type="text" formControlName="nomeRazaoSocial" class="form-control" id="name"
                     placeholder="Nome / Razão Social" 
-                    [ngClass]="{'is-invalid': (clienteForm.get('nomeRazaoSocial')?.touched) && clienteForm.get('nomeRazaoSocial')?.errors?.['required'] && erros
+                    [ngClass]="{'is-invalid': (clienteForm.get('nomeRazaoSocial')?.touched) && clienteForm.get('nomeRazaoSocial')?.errors?.['required']
                 || (clienteForm.get('nomeRazaoSocial')?.touched) && clienteForm.get('nomeRazaoSocial')?.errors?.['maxlength']
             }" />
                 <label for="floatingInput">Nome/Razão Social</label>
             </div>
             <span class="text-danger"
-                *ngIf="(clienteForm.get('nomeRazaoSocial')?.touched) && clienteForm.get('nomeRazaoSocial')?.errors?.['required'] && erros">
+                *ngIf="(clienteForm.get('nomeRazaoSocial')?.touched) && clienteForm.get('nomeRazaoSocial')?.errors?.['required']">
                 Campo obrigatório
             </span>
             <span class="text-danger"
@@ -19,14 +19,14 @@
                 O Nome/Razão Social deve ter no máximo de 150 caracteres
             </span>
             <div class="form-floating mb-3">
-                <input type="text" formControlName="email" class="form-control" id="email" placeholder="email"
-                    [ngClass]="{'is-invalid': (clienteForm.get('email')?.touched) && clienteForm.get('email')?.errors?.['required'] && erros
+                <input type="text" formControlName="email" class="form-control" id="email" placeholder="email" (blur)="onEmailBlur()"
+                    [ngClass]="{'is-invalid': (clienteForm.get('email')?.touched) && clienteForm.get('email')?.errors?.['required']
                     || (clienteForm.get('email')?.touched) && clienteForm.get('email')?.errors?.['maxlength']
                 }" />
                 <label for="floatingInput">Email</label>
             </div>
             <span class="text-danger"
-                *ngIf="(clienteForm.get('email')?.touched) && clienteForm.get('email')?.errors?.['required'] && erros">
+                *ngIf="(clienteForm.get('email')?.touched) && clienteForm.get('email')?.errors?.['required']">
                 Campo obrigatório
             </span>
             <span class="text-danger"
@@ -39,14 +39,14 @@
             </span>
             <div class="form-floating mb-3">
                 <input type="text" formControlName="telefone" class="form-control" id="telefone" placeholder="telefone"
-                    [ngClass]="{'is-invalid': (clienteForm.get('telefone')?.touched) && clienteForm.get('telefone')?.errors?.['required'] && erros
+                    [ngClass]="{'is-invalid': (clienteForm.get('telefone')?.touched) && clienteForm.get('telefone')?.errors?.['required']
                 || (clienteForm.get('telefone')?.touched) && clienteForm.get('telefone')?.errors?.['pattern']
                 || (clienteForm.get('telefone')?.touched) && clienteForm.get('telefone')?.errors?.['maxlength']
             }" />
                 <label for="floatingInput">Telefone</label>
             </div>
             <span class="text-danger"
-                *ngIf="(clienteForm.get('telefone')?.touched) && clienteForm.get('telefone')?.errors?.['required'] && erros">
+                *ngIf="(clienteForm.get('telefone')?.touched) && clienteForm.get('telefone')?.errors?.['required']">
                 Campo obrigatório
             </span>
             <span class="text-danger"
@@ -59,23 +59,23 @@
             </span>
             <label>Selecione o tipo da pessoa</label>
             <select formControlName="tipoPessoa" class="form-select mb-3"
-                [ngClass]="{'is-invalid': (clienteForm.get('tipoPessoa')?.touched) && clienteForm.get('tipoPessoa')?.errors?.['required'] && erros}">
-                <option value="1">Pessoa Física</option>
-                <option value="2">Pessoa Jurídica</option>
+                [ngClass]="{'is-invalid': (clienteForm.get('tipoPessoa')?.touched) && clienteForm.get('tipoPessoa')?.errors?.['required']}">
+                <option value="fisica">Pessoa Física</option>
+                <option value="juridica">Pessoa Jurídica</option>
             </select>
             <span class="text-danger"
-                *ngIf="(clienteForm.get('tipoPessoa')?.touched) && clienteForm.get('tipoPessoa')?.errors?.['required'] && erros">
+                *ngIf="(clienteForm.get('tipoPessoa')?.touched) && clienteForm.get('tipoPessoa')?.errors?.['required']">
                 Campo obrigatório
             </span>
             <div class="form-floating mb-3">
-                <input mask="CPF_CNPJ" type="text" formControlName="documento" class="form-control" id="documento"
-                    placeholder="Nome / Razão Social" [ngClass]="{'is-invalid': (clienteForm.get('documento')?.touched) && clienteForm.get('documento')?.errors?.['required'] && erros
+                <input mask="CPF_CNPJ" type="text" formControlName="documento" class="form-control" id="documento" (blur)="onCpfCnpjBlur()"
+                    placeholder="Nome / Razão Social" [ngClass]="{'is-invalid': (clienteForm.get('documento')?.touched) && clienteForm.get('documento')?.errors?.['required']
                 || (clienteForm.get('documento')?.touched) && clienteForm.get('documento')?.errors?.['maxlength']
             }" />
                 <label for="floatingInput">CPF/CNPJ</label>
             </div>
             <span class="text-danger"
-                *ngIf="(clienteForm.get('documento')?.touched) && clienteForm.get('documento')?.errors?.['required'] && erros">
+                *ngIf="(clienteForm.get('documento')?.touched) && clienteForm.get('documento')?.errors?.['required']">
                 Campo obrigatório
             </span>
             <span class="text-danger"
@@ -95,42 +95,42 @@
                 </label>
             </div>
             <div class="form-floating mb-3">
-                <input mask="000.000.000-000" type="text" formControlName="inscricaoEstadual" class="form-control"
-                    id="inscricaoEstadual" placeholder="inscricaoEstadual" [ngClass]="{'is-invalid': (clienteForm.get('inscricaoEstadual')?.touched) && clienteForm.get('inscricaoEstadual')?.errors?.['required'] && erros
+                <input mask="000.000.000-000" type="text" formControlName="inscricaoEstadual" class="form-control" (blur)="onInscricaoEstadualBlur()"
+                    id="inscricaoEstadual" placeholder="inscricaoEstadual" [ngClass]="{'is-invalid': (clienteForm.get('inscricaoEstadual')?.touched) && clienteForm.get('inscricaoEstadual')?.errors?.['required']
                 || (clienteForm.get('inscricaoEstadual')?.touched) && clienteForm.get('inscricaoEstadual')?.errors?.['maxlength']
             }" />
                 <label for="floatingInput">Inscrição Estadual</label>
             </div>
             <span class="text-danger"
-                *ngIf="(clienteForm.get('inscricaoEstadual')?.touched) && clienteForm.get('inscricaoEstadual')?.errors?.['required'] && erros">
+                *ngIf="(clienteForm.get('inscricaoEstadual')?.touched) && clienteForm.get('inscricaoEstadual')?.errors?.['required']">
                 Campo obrigatório
             </span>
             <span class="text-danger"
                 *ngIf="(clienteForm.get('inscricaoEstadual')?.touched) && clienteForm.get('inscricaoEstadual')?.errors?.['maxlength']">
                 O Nome/Razão Social deve ter no máximo de 12 caracteres
             </span>
-            <div *ngIf="clienteForm.get('tipoPessoa')?.value === '1'">
+            <div *ngIf="clienteForm.get('tipoPessoa')?.value === 'fisica'">
                 <label>Gênero</label>
                 <select formControlName="genero" class="form-select mb-3"
-                    [ngClass]="{'is-invalid': (clienteForm.get('genero')?.touched) && clienteForm.get('genero')?.errors?.['required'] && erros}">
+                    [ngClass]="{'is-invalid': (clienteForm.get('genero')?.touched) && clienteForm.get('genero')?.errors?.['required']}">
                     <option value="feminino">Feminino</option>
                     <option value="masculino">Masculino</option>
                     <option value="outro">Outro</option>
                 </select>
                 <span class="text-danger"
-                    *ngIf="(clienteForm.get('genero')?.touched) && clienteForm.get('genero')?.errors?.['required'] && erros">
+                    *ngIf="(clienteForm.get('genero')?.touched) && clienteForm.get('genero')?.errors?.['required']">
                     Campo obrigatório
                 </span>
                 <mat-form-field class="mb-3">
                     <mat-label>Data Nascimento</mat-label>
                     <input matInput [matDatepicker]="picker" formControlName="dataNascimento" 
-                    [ngClass]="{'is-invalid': (clienteForm.get('dataNascimento')?.touched) && clienteForm.get('dataNascimento')?.errors?.['required'] && erros}">
+                    [ngClass]="{'is-invalid': (clienteForm.get('dataNascimento')?.touched) && clienteForm.get('dataNascimento')?.errors?.['required']}">
                     <mat-hint>DD/MM/YYYY</mat-hint>
                     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
                 </mat-form-field>
                 <span class="text-danger"
-                    *ngIf="(clienteForm.get('dataNascimento')?.touched) && clienteForm.get('dataNascimento')?.errors?.['required'] && erros">
+                    *ngIf="(clienteForm.get('dataNascimento')?.touched) && clienteForm.get('dataNascimento')?.errors?.['required']">
                     Campo obrigatório
                 </span>
             </div>
@@ -144,13 +144,13 @@
             </div>
             <div class="form-floating mb-3">
                 <input type="password" formControlName="senha" class="form-control"
-                    id="senha" placeholder="senha" [ngClass]="{'is-invalid': (clienteForm.get('senha')?.touched) && clienteForm.get('senha')?.errors?.['required'] && erros
+                    id="senha" placeholder="senha" [ngClass]="{'is-invalid': (clienteForm.get('senha')?.touched) && clienteForm.get('senha')?.errors?.['required']
                 || (clienteForm.get('senha')?.touched) && clienteForm.get('senha')?.errors?.['maxlength']
             }" />
                 <label for="floatingInput">Senha</label>
             </div>
             <span class="text-danger"
-                *ngIf="(clienteForm.get('senha')?.touched) && clienteForm.get('senha')?.errors?.['required'] && erros">
+                *ngIf="(clienteForm.get('senha')?.touched) && clienteForm.get('senha')?.errors?.['required']">
                 Campo obrigatório
             </span>
             <span class="text-danger"
@@ -167,13 +167,13 @@
             </span>
             <div class="form-floating mb-3">
                 <input type="password" formControlName="confirmacaoSenha" class="form-control"
-                    id="confirmacaoSenha" placeholder="confirmacaoSenha" [ngClass]="{'is-invalid': (clienteForm.get('confirmacaoSenha')?.touched) && clienteForm.get('confirmacaoSenha')?.errors?.['required'] && erros
+                    id="confirmacaoSenha" placeholder="confirmacaoSenha" [ngClass]="{'is-invalid': (clienteForm.get('confirmacaoSenha')?.touched) && clienteForm.get('confirmacaoSenha')?.errors?.['required']
                 || (clienteForm.get('confirmacaoSenha')?.touched) && clienteForm.get('confirmacaoSenha')?.errors?.['maxlength']
             }" />
                 <label for="floatingInput">Confirmação da senha</label>
             </div>
             <span class="text-danger"
-                *ngIf="(clienteForm.get('confirmacaoSenha')?.touched) && clienteForm.get('confirmacaoSenha')?.errors?.['required'] && erros">
+                *ngIf="(clienteForm.get('confirmacaoSenha')?.touched) && clienteForm.get('confirmacaoSenha')?.errors?.['required']">
                 Campo obrigatório
             </span>
             <span class="text-danger"
@@ -189,8 +189,8 @@
                 As senhas não conferem.
             </span>
             <div>
-                <button mat-stroked-button class="botao mb-3 adicionar" type="submit">Adicionar cliente</button>
-                <button mat-stroked-button class="botao mb-3 cancelar">Cancelar</button>
+                <button mat-stroked-button class="botao mb-3 adicionar" type="submit">{{tituloBotaoSubmited}}</button>
+                <button mat-stroked-button class="botao mb-3 cancelar" (click)="abrirListaDeClientes()">Cancelar</button>
             </div>
         </form>
     </div>

@@ -1,4 +1,4 @@
-export interface Cliente {
+export interface IClienteGrid {
     nome: string,
     email: string,
     telefone: string,

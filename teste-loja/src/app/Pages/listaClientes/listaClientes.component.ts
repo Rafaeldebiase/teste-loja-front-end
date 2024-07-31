@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, inject, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {MatTableModule, MatTableDataSource} from '@angular/material/table';
 import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
@@ -7,7 +7,12 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { SelectionModel  } from '@angular/cdk/collections';
-import { Cliente } from '../../cliente';
+import { HttpClientService } from '../../Services/http-client.service';
+import { IClienteGrid } from '../../interfaces/iClienteGrid';
+import { ComunicacaoService } from '../../Services/comunicacao.service';
+import { ICliente } from '../../interfaces/icliente';
+import { Router } from '@angular/router';
+import { IBloquear } from '../../interfaces/iBloquear';
 
 @Component({
   selector: 'app-listaClientes',
@@ -24,16 +29,39 @@ import { Cliente } from '../../cliente';
   templateUrl: './listaClientes.component.html',
   styleUrl: './listaClientes.component.scss',
 })
-export class ListaClientesComponent implements AfterViewInit {
-  public displayedColumns: string[] = ['select','position','nome', 'email', 'telefone', 'dataCadastro', 'bloqueado', 'acoes'];
-  public dataSource = new MatTableDataSource<Cliente>(CLIENTES_DATA);
-  public selection = new SelectionModel<Cliente>(true, []);
+export class ListaClientesComponent implements AfterViewInit, OnInit {
+  public displayedColumns: string[] = ['select','nomeRazaoSocial', 'email', 'telefone', 'dataCadastro', 'bloqueado', 'acoes'];
+  public dataSource: MatTableDataSource<IClienteGrid> = new MatTableDataSource();
+  public selection = new SelectionModel<IClienteGrid>(true, []);
   public filtro = false; 
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  public ngAfterViewInit() {
+  private _http = inject(HttpClientService);
+  private _comunicacao = inject(ComunicacaoService);
+  private _router = inject(Router)
+
+
+  ngOnInit(): void {
     this.dataSource.paginator = this.paginator;
+  }
+
+  public ngAfterViewInit() {
+    this.carregarClientes();
+    this.paginator.page.subscribe(() => {
+      this.carregarClientes()
+      this.dataSource.paginator = this.paginator;
+    }
+  );
+  }
+
+  public carregarClientes() {
+    const paginaAtual = this.paginator.pageIndex;
+    const tamanhoPagina = this.paginator.pageSize;
+
+    this._http.buscarClientesPaginado(paginaAtual + 1, tamanhoPagina).subscribe(response => {
+      this.dataSource.data = response;
+    });
   }
 
   public isAllSelected() {
@@ -51,19 +79,39 @@ export class ListaClientesComponent implements AfterViewInit {
     this.selection.select(...this.dataSource.data);
   }
 
-  public checkboxLabel(row?: Cliente): string {
+  public checkboxLabel(row?: IClienteGrid): string {
     if (!row) {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
   }
 
-  public editarCliente(row?: Cliente) {
+  public editarCliente(row?: ICliente) {
     console.log(row)
+    const cliente: ICliente = {
+      nomeRazaoSocial: row?.nomeRazaoSocial!,
+      email: row?.email!,
+      telefone: row?.telefone!,
+      tipoPessoa: row?.tipoPessoa!,
+      documento:row?.documento!,
+      inscricaoEstadualPessoaFisica: row?.inscricaoEstadualPessoaFisica!,
+      isentoInscricaoEstadual: row?.isentoInscricaoEstadual!,
+      inscricaoEstadual: row?.inscricaoEstadual!,
+      genero: row?.genero!,
+      dataNascimento: row?.dataNascimento!,
+      bloqueado: row?.bloqueado!,
+      senha: row?.senha!
+    }
+
+    this._comunicacao.setCliente(cliente);
+    this._router.navigate(['/cadastroCliente'])
   }
 
-  public bloquear(cliente: Cliente) {
+  public bloquear(cliente: IClienteGrid) {
     cliente.bloqueado = !cliente.bloqueado;
+    const bloquear: IBloquear = {email: cliente.email}
+
+    this._http.bloquearCliente(bloquear).subscribe(x => console.log);
   }
 
   public mostrarFiltro() {
@@ -76,10 +124,3 @@ export class ListaClientesComponent implements AfterViewInit {
   }
 
 }
-
-const CLIENTES_DATA: Cliente[] = [
-  {position: 1, nome: "rafael", email: "teste@teste", telefone: "123654", dataCadastro: "123333", bloqueado: false },
-  {position: 2, nome: "rafael", email: "teste@teste", telefone: "123654", dataCadastro: "123333", bloqueado: true },
-  {position: 3, nome: "rafael", email: "teste@teste", telefone: "123654", dataCadastro: "123333", bloqueado: false },
-
-];

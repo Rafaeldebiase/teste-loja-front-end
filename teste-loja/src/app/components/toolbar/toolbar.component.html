@@ -2,5 +2,5 @@
     <span>Consulte os seus clientes cadastrados na sua loja ou realize o cadastro de novos
         clientes</span>
     <span class="spacer"></span>
-    <button mat-stroked-button (click)="abrirCadastroCliente()">Adicionar Cliente</button>
+    <button *ngIf="!telaCadastro" mat-stroked-button (click)="abrirCadastroCliente()">Adicionar Cliente</button>
 </mat-toolbar>
